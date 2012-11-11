@@ -1,4 +1,5 @@
 // Find the xth Fibonacci number recursively
+// TODO: Memoise results. Right now each number is calculated more than once.
 
 fib := method(x, if(x <= 2, return 1, return fib(x - 1) + fib(x - 2)))
 

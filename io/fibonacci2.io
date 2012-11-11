@@ -1,4 +1,5 @@
 // Find the xth Fibonacci number in a loop
+// TODO: Use less variables - it feels like there are more than necessary.
 
 fib := method(x,  next := 1; last_one := 1; last_two := 1; i := 1
                   while(i <= x,
