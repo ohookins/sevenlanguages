@@ -37,3 +37,5 @@ obj3 slotNames println
 Obj2 setMyvar(7)
 Obj2 myvar println
 obj3 myvar println
+
+exit(0)

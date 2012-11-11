@@ -15,3 +15,5 @@ Duck walk := method("waddle" println)
 
 disco := Duck clone
 disco ancestors
+
+exit(0)
