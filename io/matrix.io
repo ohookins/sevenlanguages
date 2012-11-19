@@ -47,6 +47,24 @@ Matrix get := method(x, y,
   call target data at(x) at(y)
 )
 
+Matrix transpose := method(
+  # Determine dimensions and make a new matrix
+  x := call target data size
+  y := call target data at(0) size
+  new_matrix := Matrix clone
+  new_matrix dim(y, x)
+
+  # Iterate through source matrix copying to inverse locations in destination
+  for(i, 0, x - 1,
+    for(j, 0, y - 1,
+      new_matrix set(j, i, call target get(i, j))
+    )
+  )
+
+  # Return the result
+  new_matrix
+)
+
 mat := Matrix clone
 mat dim(2, 2)
 
@@ -58,5 +76,10 @@ mat set(1,1,10)
 "Matrix contents: " println
 "#{mat get(0,0)} #{mat get(0,1)}" interpolate println
 "#{mat get(1,0)} #{mat get(1,1)}" interpolate println
+
+"\nTransposed matrix contents: " println
+new_mat := mat transpose
+"#{new_mat get(0,0)} #{new_mat get(0,1)}" interpolate println
+"#{new_mat get(1,0)} #{new_mat get(1,1)}" interpolate println
 
 exit(0)
