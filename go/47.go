@@ -1,25 +1,24 @@
 package main
 
 import (
-  "tour/pic"
+	"tour/pic"
 )
 
 func Pic(dx, dy int) [][]uint8 {
-  image := make([][]uint8, dx)
+	image := make([][]uint8, dx)
 
-  for x := 0; x < dx; x++ {
+	for x := 0; x < dx; x++ {
 
-    image[x] = make([]uint8, dy)
+		image[x] = make([]uint8, dy)
 
-    for y := 0; y < dy; y++ {
-      image[x][y] = uint8(x ^ y)
-    }
-  }
+		for y := 0; y < dy; y++ {
+			image[x][y] = uint8(x ^ y)
+		}
+	}
 
-  return image
+	return image
 }
 
 func main() {
-  pic.Show(Pic)
+	pic.Show(Pic)
 }
-
