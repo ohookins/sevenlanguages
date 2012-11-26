@@ -7,10 +7,10 @@ import (
 )
 
 type rot13Reader struct {
-  r io.Reader
+  reader io.Reader
 }
 
-func (r *rot13Reader) Read(p []byte) (n int, err error) {
+func (rot13 *rot13Reader) Read(p []byte) (n int, err error) {
   max_length := len(p)
   n = 0
   err = nil
@@ -22,7 +22,7 @@ func (r *rot13Reader) Read(p []byte) (n int, err error) {
     // the rot13Reader and the struct member for the
     // io.Reader have the same name (r) but there it
     // is. Poor example code.
-    j, err = r.r.Read(temp)
+    j, err = rot13.reader.Read(temp)
     if err != nil || j != 1 {
       break
     }
