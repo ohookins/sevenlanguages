@@ -7,11 +7,13 @@ import (
 var (
 	fetched map[string]bool
 	visited int
+	ch      chan int
 )
 
 func init() {
 	fetched = make(map[string]bool)
 	visited = 0
+	ch = make(chan int)
 }
 
 type Fetcher interface {
@@ -23,8 +25,6 @@ type Fetcher interface {
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func Crawl(url string, depth int, fetcher Fetcher, ch chan int) {
-	fetched[url] = true
-
 	if depth <= 0 {
 		return
 	}
@@ -36,6 +36,7 @@ func Crawl(url string, depth int, fetcher Fetcher, ch chan int) {
 	fmt.Printf("found: %s %q\n", url, body)
 	for _, u := range urls {
 		if fetched[u] != true {
+			fetched[u] = true
 			go Crawl(u, depth-1, fetcher, ch)
 		}
 	}
@@ -44,15 +45,20 @@ func Crawl(url string, depth int, fetcher Fetcher, ch chan int) {
 }
 
 func main() {
-	ch := make(chan int)
-	go Crawl("http://golang.org/", 4, fetcher, ch)
-
-	for {
-		visited += <-ch
-		if visited == len(fetched) {
-			return
+	// First start up a loop which monitors go routines
+	// and how many URLs have been discovered, so we know
+	// when we can return.
+	go func() {
+		for {
+			visited += <-ch
+			if visited == (len(fetched) + 1) {
+				return
+			}
 		}
-	}
+	}()
+
+	Crawl("http://golang.org/", 4, fetcher, ch)
+	ch <- 1
 }
 
 // fakeFetcher is Fetcher that returns canned results.
