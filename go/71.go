@@ -47,18 +47,19 @@ func Crawl(url string, depth int, fetcher Fetcher, ch chan int) {
 func main() {
 	// First start up a loop which monitors go routines
 	// and how many URLs have been discovered, so we know
-	// when we can return.
+	// when we can exit
+	quit := make(chan bool)
 	go func() {
 		for {
 			visited += <-ch
-			if visited == (len(fetched) + 1) {
-				return
+			if visited == len(fetched) {
+				quit <- true
 			}
 		}
 	}()
 
 	Crawl("http://golang.org/", 4, fetcher, ch)
-	ch <- 1
+	<-quit
 }
 
 // fakeFetcher is Fetcher that returns canned results.
