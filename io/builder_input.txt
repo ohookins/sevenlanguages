@@ -1,0 +1,7 @@
+Builder html(
+  head(
+    title("My IO-generated page")
+  ),
+  body(
+    book({"author": "Tate"})
+  ))
