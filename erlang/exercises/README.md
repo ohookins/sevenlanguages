@@ -39,3 +39,27 @@ revolver ! 3.
 % kill (and revive) the doctor
 doctor ! die.
 ```
+
+### double_monitored_doctor
+This is the same doctor/roulette system, but with two-way monitoring between
+the doctor and a watcher.
+
+At the erlang shell:
+```
+% compile the modules
+c(roulette).
+c(doctor).
+c(doctor_watcher).
+
+% start the doctor watcher, which also starts the doctor and roulette game
+doctor_watcher:start().
+
+% shoot the revolver and kill (and revive) the player by the doctor
+revolver ! 3.
+
+% kill (and revive) the doctor by the watcher
+doctor ! die.
+
+% kill (and revive) the watcher by the doctor
+watcher ! die.
+```
