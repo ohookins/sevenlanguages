@@ -19,6 +19,22 @@ translate_otp:get_count().
 translate_otp:stop().
 ```
 
+#### running it over the network
+```
+% start two instances of the Erlang VM in different terminals
+erl -sname dilbert
+erl -sname dogbert
+
+% ensure you can reach one from the other using the full node name
+net_adm:ping("dogbert@nodename").
+
+% start the translate service running on one VM
+translate_sup:start_link().
+
+% send a string to translate using the RPC module of the other VM
+rpc:call("dilbert@nodename", translate_otp, translate, ["blanca"]).
+```
+
 ### monitored doctor
 This is a one-way monitored version of the doctor/roulette system.
 
