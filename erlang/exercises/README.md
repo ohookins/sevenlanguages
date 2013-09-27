@@ -63,3 +63,22 @@ doctor ! die.
 % kill (and revive) the watcher by the doctor
 watcher ! die.
 ```
+
+### OTP-based logger
+This is a gen_server-based OTP logger with an OTP supervisor. Logging is
+performed asynchronously using gen_server:cast, and goes to a file called
+output.log for this exercise code.
+
+At the Erlang shell:
+```
+% compile the modules
+c(otp_logger).
+c(otp_supervisor).
+
+% Start the supervisor and logger service
+otp_supervisor:start_link().
+
+% Send some log messages
+otp_logger:log("this is a log message").
+otp_logger:log("this is another log message").
+```
